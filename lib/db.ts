@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { ApiError } from "@/utils/ApiError";
-import { connect } from "http2";
-import { maxHeaderSize } from "http";
+// import { connect } from "http2";
+// import { maxHeaderSize } from "http";
 
 const print = console.log;
 
@@ -51,7 +51,7 @@ export const dbConnector = async () => {
  }
     //  3. connection on the way just wait
  try {
-     connChecker.connection = await mongoose.connection; 
+     connChecker.connection = await connChecker.promise; 
  } catch (error) {
      print(`❌ Database connection error: ${error} 😔`);
      connChecker.connection = null;
