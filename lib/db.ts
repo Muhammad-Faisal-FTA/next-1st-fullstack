@@ -8,7 +8,7 @@ const print = console.log;
 const db_Uri = process.env.DB_URI as string;
 
 if (!db_Uri) {
-    throw new ApiError(404, "Database URI not found");
+    throw new Error("Database URI not found");
 }
 
 let connChecker = global.mongoose;
@@ -37,7 +37,6 @@ export const dbConnector = async () => {
      //  2. no connection create one
  if(!connChecker.connection){
     const options = {
-        maxHeaderSize: 10,
         bufferCommands: false,
     }
     mongoose

@@ -8,13 +8,13 @@ const print = console.log;
 export const POST = async (request: NextRequest) => {
     try {
         const body = await request.json();
-        const { name, email, password } = body;
+        const { name, email, password, dob, profession } = body;
 
         // Basic validation
-        if (!name || !email ||!password){
+        if (!name || !email ||!password || !dob || !profession) {
             return NextResponse.json({
-                message: `All fields are required: ${name} ${email} ${password}`,
-                Error: `${!name ? "Name" : ""} ${!email ? "Email" : ""} ${!password ? "Password" : ""} is missing`
+                message: `All fields are required: ${name} ${email} ${password} ${dob} ${profession}`,
+                Error: `${!name ? "Name" : ""} ${!email ? "Email" : ""} ${!password ? "Password" : ""} is missing ${!dob ? "DOB" : ""} ${!profession ? "Profession" : ""}`
             }, 
             {
                 status: 400
@@ -27,22 +27,30 @@ export const POST = async (request: NextRequest) => {
         }
 
         await dbConnector();
-        const existingUser = await User.findOne({
-            email: email, 
-            name: name
-        })
-        if (existingUser) {
-            return NextResponse.json({
-                message: `User with email ${email} and name ${name} already exists`
+        setTimeout(async() => {
+            const existingUser = await User.findOne({
+                email: email, 
+                name: name
             })
-        }
+            if (existingUser) {
+                return NextResponse.json({
+                    message: `User with email ${email} and name ${name} already exists`
+                })
+            }
+        }, 1000);
         
 
 
         const hashedPassword = await hash(password, 12);
-        const user = new User({ name, email, password: hashedPassword });
-        await user.save();
-
+        const user = await User.create({
+            name,
+            email, 
+            password: hashedPassword, 
+            dob, 
+            profession
+         });
+        // await user.save();
+        print("New User Created:", user);
         return NextResponse.json({ 
             message: "User registered successfully!" ,
         },{

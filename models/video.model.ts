@@ -5,7 +5,7 @@ export const Video_Dimension = {
     width: 780
 } as const
 
-interface IV {
+ export interface IV {
     title: string;
     description: string;
     videoUrl: string;
