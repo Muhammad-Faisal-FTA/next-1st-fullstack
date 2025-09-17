@@ -56,11 +56,7 @@ export async function POST(request: NextRequest) {
                 height: body.transformation.height || 1024,
                 width: body.transformation.width || 780,
             },
-            controls: {
-                play: body.controls?.play ?? true,
-                pause: body.controls?.pause ?? false,
-                stop: body.controls?.stop ?? false,
-            },
+            controls: true,
 
     }
 

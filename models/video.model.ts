@@ -1,4 +1,4 @@
-import {Schema, model, models} from "mongoose";
+import mongoose, {Schema, Types, model, models} from "mongoose";
 
 export const Video_Dimension = {
     height: 1024,
@@ -6,6 +6,7 @@ export const Video_Dimension = {
 } as const
 
  export interface IV {
+    _id?: mongoose.Types.ObjectId;
     title: string;
     description: string;
     videoUrl: string;
@@ -16,11 +17,7 @@ export const Video_Dimension = {
         quality: {type: number, min: 1, max: 100 }; // e.g., 1080, 720
         format: "mp4"
     };
-    controls?:{
-        play: boolean;
-        pause: boolean;
-        stop: boolean;
-    };
+    controls?: boolean;
     category: string[]
 }
 
